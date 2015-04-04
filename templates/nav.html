@@ -1,0 +1,35 @@
+<div class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand">
+      Urf Bracket
+    </a>
+  </div>
+
+  <ul class="nav navbar-nav" ng-show="api.isAuthorized()">
+    <li ng-class="{active: $state.includes('app.bracket')}">
+      <a ui-sref="app.bracket"><i class="fa fa-home"></i> Home</a>
+    </li>
+  </ul>
+
+  <ul class="nav navbar-nav pull-right" ng-show="api.isAuthorized()">
+    <li dropdown>
+      <a href class="dropdown-toggle" dropdown-toggle>
+        {{api.user.first_name + " " + api.user.last_name}}
+        <span class="caret">&nbsp;</span>
+      </a>
+
+      <ul class="dropdown-menu">
+        <li>
+          <a href ng-click="api.logout()">
+            <i class="fa fa-lock"></i>
+            Logout
+          </a>
+        </li>
+      </ul>
+
+    </li>
+  </ul>
+
+</div>
+
+<div ui-view></div>
