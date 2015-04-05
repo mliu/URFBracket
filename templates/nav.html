@@ -7,7 +7,13 @@
 
   <ul class="nav navbar-nav" ng-show="api.isAuthorized()">
     <li ng-class="{active: $state.includes('app.bracket')}">
-      <a ui-sref="app.bracket"><i class="fa fa-home"></i> Home</a>
+      <a ui-sref="app.bracket"><i class="fa fa-list-ul"></i> Bracket</a>
+    </li>
+  </ul>
+
+  <ul class="nav navbar-nav" ng-hide="api.isAuthorized()">
+    <li ng-class="{active: $state.includes('app.bracket')}">
+      <a ui-sref="app.bracket"><i class="fa fa-list-ul"></i> Bracket</a>
     </li>
   </ul>
 
@@ -18,7 +24,7 @@
         <span class="caret">&nbsp;</span>
       </a>
 
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu pull-right">
         <li>
           <a href ng-click="api.logout()">
             <i class="fa fa-lock"></i>

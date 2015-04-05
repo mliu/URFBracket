@@ -14,6 +14,8 @@ angular.module('LoLApp', [
     'AppConfig',
     //MODULES
     'NavModule',
+    'AuthModule',
+    'BracketModule',
     //SERVICES
     'APIService',
     'StorageService',
@@ -22,12 +24,6 @@ angular.module('LoLApp', [
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-  .state('signin', {
-    url: '/auth/signin',
-    templateUrl: './templates/auth/signin.html',
-    controller: 'SigninCtrl as SigninCtrl',
-    guestAccess: true
-  })
 
   .state('app', {
     url: '',
@@ -41,10 +37,22 @@ angular.module('LoLApp', [
     }
   })
 
+  .state('app.signin', {
+    url: '/signin',
+    templateUrl: './templates/auth/signin.html',
+    controller: 'AuthCtrl as AuthCtrl',
+    guestAccess: true,
+    resolve: {
+      userData: function(userPromise){
+        return;
+      }
+    }
+  })
+
   .state('app.bracket', {
-    url: '/home',
-    templateUrl: "./templates/social/index.html",
-    controller: 'SocialHomeCtrl as SocialHomeCtrl',
+    url: '/bracket',
+    templateUrl: "./templates/bracket/index.html",
+    controller: 'BracketCtrl as BracketCtrl',
     resolve: {
       userData: function(userPromise){
         return;
@@ -59,26 +67,28 @@ angular.module('LoLApp', [
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/404');
+  $urlRouterProvider.otherwise('/signin');
 }])
 
 .directive('spinner', function() {
   return {
     restrict: 'E',
-    templateUrl: './templates/_directives/spinner.html',
+    templateUrl: './templates/directives/spinner.html',
   }
 })
 
 .run(['$rootScope', '$state', 'apiService', function($rootScope, $state, apiService) {
-  // apiService.init();
+  apiService.init();
 
-  if($rootScope.isInitialized){
-    if(!apiService.isAuthorized()) {
-      // GUEST
-      if(!next.guestAccess) {
-        event.preventDefault();
-        $state.go('signin');
+  $rootScope.$on("$stateChangeStart", function(event, next, current) {
+    if($rootScope.isInitialized){
+      if(!apiService.isAuthorized()) {
+        // GUEST
+        if(!next.guestAccess) {
+          event.preventDefault();
+          $state.go('signin');
+        }
       }
     }
-  }
+  })
 }]);

@@ -10,13 +10,13 @@
     apiService.user = null;
     apiService.token = null;
     apiService.isInitializing = false;
+    $rootScope.isInitialized = true;
 
     apiService.isAuthorized = function() {
       if(apiService.token != null && apiService.user != null) {
         return true;
       }
-      // For testing
-      return true;
+      return false;
     }
 
     apiService.request = function(request, route, payload) {
@@ -51,7 +51,7 @@
         apiService.token = null;
         $rootScope.isInitialized = true;
         if($location.path().indexOf('signin') == -1){
-          $state.go('signin');
+          $state.go('app.signin');
         }
       });
       return apiService.promise;
@@ -62,7 +62,7 @@
       apiService.token = null;
       apiService.isInitializing = false;
       storageService.clear('auth.token');
-      $state.go('signin');
+      $state.go('app.signin');
     }
 
     return apiService;
