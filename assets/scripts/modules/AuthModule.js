@@ -14,8 +14,9 @@
 				username: $scope.username,
 				password: $scope.password
 			}
-			apiService.request('POST', '/users', payload)
+			apiService.request('POST', '/users/auth', payload)
 			.success(function(response) {
+				apiService.storeData(response.token, response.user);
 				$scope.isLoading = false;
 			})
 			.error(function(response) {
@@ -27,13 +28,15 @@
 		$scope.signup = function () {
 			$scope.isLoading = true;
 			var payload = {
-				username: $scope.username,
-				summoner: $scope.summoner,
-				password: $scope.password
+				username: $scope.su_username,
+				summoner: $scope.su_summoner,
+				password: $scope.su_password
 			}
 			apiService.request('POST', '/users', payload)
 			.success(function(response) {
-				$scope.isLoading = false;
+				$scope.username = angular.copy($scope.su_username);
+				$scope.password = angular.copy($scope.su_password);
+				$scope.signin();
 			})
 			.error(function(response) {
 				$scope.isLoading = false;

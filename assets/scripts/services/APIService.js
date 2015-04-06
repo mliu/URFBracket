@@ -12,6 +12,12 @@
     apiService.isInitializing = false;
     $rootScope.isInitialized = true;
 
+    apiService.storeData = function(token, user) {
+      apiService.token = token;
+      storageService.set('auth.token', token);
+      apiService.user = user;
+    }
+
     apiService.isAuthorized = function() {
       if(apiService.token != null && apiService.user != null) {
         return true;

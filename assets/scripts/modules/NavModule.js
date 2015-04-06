@@ -7,5 +7,6 @@
     var ctrl = this;
     $scope.api = apiService;
     $scope.$state = $state;
+    
   }]);
 })();

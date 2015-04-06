@@ -3,12 +3,13 @@
 		<div class="col-md-4 col-md-offset-4">
 			<div class="panel panel-default">
 				<div class="panel-body">
+					<h1 class="text-center" ng-show="showSignin">Sign in</h1>
+					<h1 class="text-center" ng-hide="showSignin">Create Account</h1>
 					<alert ng-show="error" type="danger" close="error=null">
-						<strong>Whoops!</strong>&nbsp;{{ error }}
+						{{ error }}
 					</alert>
 					<form name="signinForm" ng-submit="signinForm.$valid && signin()" ng-show="showSignin">
 						<fieldset ng-disabled="isLoading">
-							<h1 class="text-center">Sign in</h1>
 							<div class="form-group">
 								<label>Username</label>
 								<input type="text" ng-model="username" class="form-control" placeholder="Frinkly" required />
@@ -18,7 +19,8 @@
 								<input type="password" ng-model="password" class="form-control" required />
 							</div>
 							<button type="submit" class="btn btn-block btn-success" ng-disabled="signinForm.$invalid">
-								Let's jam
+								<span ng-hide="isLoading">Let's jam</span>
+								<span ng-show="isLoading"><spinner></spinner>&nbsp;Loading..</span>
 							</button>
 							<button type="button" ng-click="showSignin = false" class="btn btn-block btn-default">
 								Create Account
@@ -27,21 +29,21 @@
 					</form>
 					<form name="signupForm" ng-submit="signupForm.$valid && signup()" ng-hide="showSignin">
 						<fieldset ng-disabled="isLoading">
-							<h1 class="text-center">Create Account</h1>
 							<div class="form-group">
 								<label>Username</label>
-								<input type="text" ng-model="username" class="form-control" placeholder="Frinkly" required />
+								<input type="text" ng-model="su_username" maxlength="20" class="form-control" placeholder="Frinkly" required />
 							</div>
 							<div class="form-group">
 								<label>Summoner Name (Optional)</label>
-								<input type="text" ng-model="summoner" class="form-control" placeholder="Dyrone" required />
+								<input type="text" ng-model="su_summoner" maxlength="18" class="form-control" placeholder="Dyrone" />
 							</div>
 							<div class="form-group">
 								<label>Password</label>
-								<input type="password" ng-model="password" class="form-control" required />
+								<input type="password" ng-model="su_password" class="form-control" required />
 							</div>
 							<button type="submit" class="btn btn-block btn-success" ng-disabled="signupForm.$invalid">
-								Create Account
+								<span ng-hide="isLoading">Create Account</span>
+								<span ng-show="isLoading"><spinner></spinner>&nbsp;Loading..</span>
 							</button>
 							<button type="button" ng-click="showSignin = true" class="btn btn-block btn-default">
 								Sign in
