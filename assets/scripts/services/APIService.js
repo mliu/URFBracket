@@ -3,13 +3,14 @@
 
   var module = angular.module('APIService', []);
 
-  module.factory('apiService', ['$rootScope', '$q', '$location', '$http', '$state', 'storageService', 'appConfig', function($rootScope, $q, $location, $http, $state, storageService, appConfig) {
+  module.factory('apiService', ['$rootScope', '$q', '$location', '$window', '$http', '$state', 'storageService', 'appConfig', function($rootScope, $q, $location, $window, $http, $state, storageService, appConfig) {
 
     var apiService = {};
 
     apiService.user = null;
     apiService.token = null;
     apiService.isInitializing = false;
+    $rootScope.isInitialized = false;
 
     apiService.storeData = function(token, user) {
       apiService.token = token;
@@ -34,7 +35,9 @@
     }
 
     apiService.init = function() {
+      console.log("a");
       if($rootScope.isInitialized) {
+        console.log("b");
         return $q.when("");
       }
       if(apiService.isInitializing) {
@@ -56,6 +59,9 @@
         $rootScope.isInitialized = true;
         if($location.path().indexOf('signin') == -1){
           $state.go('app.signin');
+        }
+        else if($location.path() == '/signin'){
+          $state.go('app.signin', {reload: true});
         }
       });
       return apiService.promise;

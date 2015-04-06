@@ -24,7 +24,6 @@ angular.module('LoLApp', [
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-
   .state('app', {
     url: '',
     abstract: true,
@@ -83,7 +82,6 @@ angular.module('LoLApp', [
   $rootScope.$on("$stateChangeStart", function(event, next, current) {
     if($rootScope.isInitialized){
       if(!apiService.isAuthorized()) {
-        // GUEST
         if(!next.guestAccess) {
           event.preventDefault();
           $state.go('app.signin');
