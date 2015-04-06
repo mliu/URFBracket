@@ -86,7 +86,7 @@ angular.module('LoLApp', [
         // GUEST
         if(!next.guestAccess) {
           event.preventDefault();
-          $state.go('signin');
+          $state.go('app.signin');
         }
       }
     }

@@ -10,7 +10,6 @@
     apiService.user = null;
     apiService.token = null;
     apiService.isInitializing = false;
-    $rootScope.isInitialized = true;
 
     apiService.storeData = function(token, user) {
       apiService.token = token;
@@ -42,7 +41,6 @@
         return apiService.promise;
       }
       apiService.token = storageService.get('auth.token');
-      apiService.subscribeLoadEvents();
       apiService.isInitializing = true;
       apiService.promise = apiService.request('GET', '/me')
       .success(function(response) {

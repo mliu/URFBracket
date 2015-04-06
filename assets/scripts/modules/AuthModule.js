@@ -2,7 +2,7 @@
 	'use strict';
 	angular.module('AuthModule', [])
 
-	.controller('AuthCtrl', ['$scope', 'apiService', function($scope, apiService) {
+	.controller('AuthCtrl', ['$scope', '$state', 'apiService', function($scope, $state, apiService) {
 
 		var ctrl = this;
 		$scope.api = apiService;
@@ -18,6 +18,7 @@
 			.success(function(response) {
 				apiService.storeData(response.token, response.user);
 				$scope.isLoading = false;
+				$state.go('app.bracket');
 			})
 			.error(function(response) {
 				$scope.isLoading = false;
