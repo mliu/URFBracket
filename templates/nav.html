@@ -6,8 +6,11 @@
   </div>
 
   <ul class="nav navbar-nav" ng-show="api.isAuthorized()">
+    <li ng-class="{active: $state.includes('app.leaderboard')}">
+      <a ui-sref="app.bracket"><i class="fa fa-list-ul"></i> Leaderboard</a>
+    </li>
     <li ng-class="{active: $state.includes('app.bracket')}">
-      <a ui-sref="app.bracket"><i class="fa fa-list-ul"></i> Bracket</a>
+      <a ui-sref="app.bracket"><i class="fa fa-bars"></i> Bracket</a>
     </li>
   </ul>
 

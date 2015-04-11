@@ -59,6 +59,17 @@ angular.module('LoLApp', [
     }
   })
 
+  .state('app.leaderboard', {
+    url: '/leaderboard',
+    templateUrl: "./templates/bracket/leaderboard.html",
+    controller: 'LeaderBoardCtrl as LeaderBoardCtrl',
+    resolve: {
+      userData: function(userPromise){
+        return;
+      }
+    }
+  })
+
   .state('404', {
     url: '/404',
     templateUrl: "./404.html",
