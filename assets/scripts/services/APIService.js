@@ -35,9 +35,7 @@
     }
 
     apiService.init = function() {
-      console.log("a");
       if($rootScope.isInitialized) {
-        console.log("b");
         return $q.when("");
       }
       if(apiService.isInitializing) {

@@ -19,6 +19,8 @@ angular.module('LoLApp', [
     //SERVICES
     'APIService',
     'StorageService',
+    //DIRECTIVES
+    'LeagueBracketDirective'
 ])
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {

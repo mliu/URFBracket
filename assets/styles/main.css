@@ -21,8 +21,29 @@
 .bracket {
   height: 650px;
   position: absolute;
-  top: 0;
+  top: 70px;
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node select {
+  /*border-radius: 100%;*/
+}
+
+.node text {
+  font: 13px sans-serif;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
 }
