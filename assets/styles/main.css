@@ -28,14 +28,17 @@
 }
 
 .node circle {
-  cursor: pointer;
   fill: #fff;
   stroke: steelblue;
   stroke-width: 1.5px;
 }
 
-.node select {
-  /*border-radius: 100%;*/
+rect.menu {
+  fill: #E7E7E7;
+}
+
+.node:hover {
+  cursor: pointer;
 }
 
 .node text {
