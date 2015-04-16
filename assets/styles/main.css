@@ -46,9 +46,15 @@ path.link {
   stroke-width: 1.5px;
 }
 
-rect.image-highlight {
+.image-highlight {
   fill: #fff;
+  opacity: 0;
   stroke: none;
+}
+
+.image-highlight:hover {
+  opacity: 0.5;
+  cursor: pointer;
 }
 
 text.winner-text {

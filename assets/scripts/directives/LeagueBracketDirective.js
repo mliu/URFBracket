@@ -17,7 +17,7 @@
 					.style('width', "100%")
 					.style('height', "100%")
 					.append("g")
-					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 				var diagonal = d3.svg.diagonal()
 					.projection(function(d) { return [d.y, d.x]; });
 
@@ -102,39 +102,61 @@
 				};
 
 				var openMenu = function(node){
-					svg.selectAll("rect.menu").remove();
-					svg.selectAll("image.menu-image").remove();
-					if(node.children.length) {
-						var rect = svg.append("g")
-							.append("rect")
+					if(node.id == scope.openMenuId) {
+						svg.selectAll("rect.menu").remove();
+						svg.selectAll("rect.image-highlight").remove();
+						svg.selectAll("image.menu-image").remove();
+						scope.openMenuId = null;
+					}
+					else if(node.id != scope.openMenuId && node.children) {
+						svg.selectAll("rect.menu").remove();
+						svg.selectAll("rect.image-highlight").remove();
+						svg.selectAll("image.menu-image").remove();
+						scope.openMenuId = node.id;
+						var translateX = 0,
+							translateXRect = 0,
+							height = d3.select(element[0]).node().offsetHeight - margin.top - margin.bottom;
+						if(node.x >= (2*height/3)) {
+							translateXRect = - 6 - 3*imageDimensions;
+						} else {
+							translateXRect = 4 + imageDimensions/2;
+						}
+						var rect = svg.append("rect")
 							.attr("class", "menu")
 							.attr("width", imageDimensions*2 + 20)
 							.attr("height", imageDimensions*2 + 20)
-							.attr("transform", "translate(" + (node.y - (5*imageDimensions/4)) + "," + (node.x + 4 + imageDimensions/2) + ")");
+							.attr("transform", "translate(" + (node.y - (5*imageDimensions/4)) + "," + (node.x + translateXRect) + ")");
 						for(var i=0;i<node.children.length;i++) {
+							if(node.x >= (2*height/3)) {
+								translateX = -(3*imageDimensions/2) - 10 - (imageDimensions+5) * i;
+								translateXRect = -11 - 3*imageDimensions/2 - (imageDimensions+5) * i;
+							} else {
+								translateX = (imageDimensions/2) + 10 + (imageDimensions+5) * i;
+								translateXRect = 6.5 + imageDimensions/2 + (imageDimensions+5) * i;
+							}
+							svg.append("image")
+								.attr("class", "menu-image menu-image-" + i)
+								.attr("width", imageDimensions)
+								.attr("height", imageDimensions)
+								.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
+								.attr("transform", "translate(" + (node.y - imageDimensions) + "," + (node.x + translateX) + ")");
+							svg.append("image")
+								.attr("class", "menu-image menu-image-" + i)
+								.attr("width", imageDimensions)
+								.attr("height", imageDimensions)
+								.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
+								.attr("transform", "translate(" + (node.y + 2) + "," + (node.x + translateX) + ")");
 							svg.append("rect")
 								.attr("class", "image-highlight image-highlight-" + i)
 								.attr("width", imageDimensions*2 + 18)
 								.attr("height", imageDimensions + 5)
-								.attr("transform", "translate(" + (node.y - (5*imageDimensions/4) + 1) + "," + (node.x + 6.5 + imageDimensions/2 + (imageDimensions+5) * i) + ")");
-							svg.append("image")
-								.attr("class", "menu-image")
-								.attr("width", imageDimensions)
-								.attr("height", imageDimensions)
-								.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
-								.attr("transform", "translate(" + (node.y - imageDimensions) + "," + (node.x + (imageDimensions/2) + 10 + (imageDimensions+5) * i) + ")");
-							svg.append("image")
-								.attr("class", "menu-image")
-								.attr("width", imageDimensions)
-								.attr("height", imageDimensions)
-								.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
-								.attr("transform", "translate(" + (node.y + 2) + "," + (node.x + (imageDimensions/2) + 10 + (imageDimensions+5) * i) + ")");
+								.attr("transform", "translate(" + (node.y - (5*imageDimensions/4) + 1) + "," + (node.x + translateXRect) + ")");
 						}
 					}
 				}
 
 				scope.render = function (data) {
-					var width = d3.select(element[0]).node().offsetWidth - margin.right - margin.left,
+					var	width = d3.select(element[0]).node().offsetWidth - margin.right - margin.left,
 						height = d3.select(element[0]).node().offsetHeight - margin.top - margin.bottom,
 						tree = d3.layout.tree()
 							.size([height, width]),
