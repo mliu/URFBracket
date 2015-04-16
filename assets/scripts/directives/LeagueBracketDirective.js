@@ -11,7 +11,7 @@
 			},
 			link: function (scope, element, attrs) {
 				var margin = {top: 30, right: 20, left: 20, bottom: 30};
-				var imageDimensions = 30;
+				var imageDimensions = 35;
 				var svg = d3.select(element[0])
 					.append('svg')
 					.style('width', "100%")
@@ -104,26 +104,32 @@
 				var openMenu = function(node){
 					svg.selectAll("rect.menu").remove();
 					svg.selectAll("image.menu-image").remove();
-					var rect = svg.append("g")
-						.append("rect")
-						.attr("class", "menu")
-						.attr("width", imageDimensions + 20)
-						.attr("height", imageDimensions + 20)
-						.attr("transform", "translate(" + (node.y - (imageDimensions + 20)/2) + "," + (node.x + imageDimensions/2) + ")");
-					console.log(rect);
-					for(var i=0;i<node.children.length;i++) {
-						svg.append("image")
-							.attr("class", "menu-image")
-							.attr("width", imageDimensions)
-							.attr("height", imageDimensions)
-							.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
-							.attr("transform", "translate(" + (node.y - imageDimensions) + "," + (node.x + 20) + ")");
-						svg.append("image")
-							.attr("class", "menu-image")
-							.attr("width", imageDimensions)
-							.attr("height", imageDimensions)
-							.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
-							.attr("transform", "translate(" + (node.y + 2) + "," + (node.x + 20) + ")");
+					if(node.children.length) {
+						var rect = svg.append("g")
+							.append("rect")
+							.attr("class", "menu")
+							.attr("width", imageDimensions*2 + 20)
+							.attr("height", imageDimensions*2 + 20)
+							.attr("transform", "translate(" + (node.y - (5*imageDimensions/4)) + "," + (node.x + 4 + imageDimensions/2) + ")");
+						for(var i=0;i<node.children.length;i++) {
+							svg.append("rect")
+								.attr("class", "image-highlight image-highlight-" + i)
+								.attr("width", imageDimensions*2 + 18)
+								.attr("height", imageDimensions + 5)
+								.attr("transform", "translate(" + (node.y - (5*imageDimensions/4) + 1) + "," + (node.x + 6.5 + imageDimensions/2 + (imageDimensions+5) * i) + ")");
+							svg.append("image")
+								.attr("class", "menu-image")
+								.attr("width", imageDimensions)
+								.attr("height", imageDimensions)
+								.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
+								.attr("transform", "translate(" + (node.y - imageDimensions) + "," + (node.x + (imageDimensions/2) + 10 + (imageDimensions+5) * i) + ")");
+							svg.append("image")
+								.attr("class", "menu-image")
+								.attr("width", imageDimensions)
+								.attr("height", imageDimensions)
+								.attr("xlink:href", appConfig.IMAGE_BASE_URL + appConfig[node.children[i].team_id] + ".png")
+								.attr("transform", "translate(" + (node.y + 2) + "," + (node.x + (imageDimensions/2) + 10 + (imageDimensions+5) * i) + ")");
+						}
 					}
 				}
 
@@ -172,6 +178,13 @@
 					link.enter().insert("path", "g")
 						.attr("class", "link")
 						.attr("d", diagonal);
+
+					svg.append("text")
+						.attr("class", "winner-text")
+						.attr("x", nodes[0].y)
+						.attr("y", nodes[0].x - imageDimensions)
+						.attr("text-anchor", "middle")
+						.text("VICTORY");
 				}
 			}
 		};
